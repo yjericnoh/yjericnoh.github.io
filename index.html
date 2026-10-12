@@ -249,9 +249,9 @@
     <section id="videos" hidden>
       <h2>Videos</h2>
 
-      <figure class="clip" data-src="V2_H1_SUCCESS_R0_R2_R0_LIFT.mp4" hidden>
+      <figure class="clip" data-src="grasp_lift_sim.mp4" hidden>
         <video controls muted playsinline preload="metadata"></video>
-        <figcaption><strong>Grasp and lift in simulation.</strong> OpenManipulator-X picking up a cube in MuJoCo, seen from two cameras; the panel below the views shows the controller state during the episode.</figcaption>
+        <figcaption><strong>Grasp recovery and lift in simulation.</strong> OpenManipulator-X picking up a cube in MuJoCo, seen from two cameras. When only one finger touches the cube and its estimated lateral offset exceeds 15 mm, the controller switches to a recovery mode, returns to the nominal grasp once the offset falls below 10 mm, and then lifts.</figcaption>
       </figure>
 
       <figure class="clip" data-src="media/teleoperation.mp4" hidden>
