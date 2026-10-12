@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Youngjin Noh</title>
-<meta name="description" content="Youngjin (Eric) Noh — B.S. student in Mechanical Engineering, UNIST. Robot vision, intelligent manipulation, and simulation for continuum and rigid manipulators.">
+<title>Youngjin (Eric) Noh</title>
+<meta name="description" content="Youngjin (Eric) Noh — B.S. student in Mechanical Engineering, UNIST. Contact and friction modeling of continuum and soft robots, soft-robot control, and robot manipulation and learning from demonstration.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
@@ -19,6 +19,7 @@
     --sans:"IBM Plex Sans", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   }
   *{box-sizing:border-box}
+  [hidden]{display:none !important}
   html{scroll-behavior:smooth; scroll-padding-top:2rem}
   body{
     margin:0;
@@ -81,12 +82,13 @@
     font-size:.88rem;
     color:var(--ink);
     text-decoration:none;
+    border-bottom:none;
     padding:.2rem 0;
   }
   nav a:hover{color:var(--accent)}
 
   /* ---------- content ---------- */
-  main{max-width:37em}
+  main{max-width:37em; min-width:0}
   section{margin-bottom:3.4rem}
   h2{
     font-family:var(--sans);
@@ -102,10 +104,6 @@
   a{color:var(--ink); text-decoration:none; border-bottom:1px solid var(--accent)}
   a:hover{color:var(--accent)}
   .lede{font-size:1.18rem; line-height:1.55; font-weight:300}
-
-  figure{margin:0 0 2rem}
-  figure video, figure img{width:100%; display:block; border:1px solid var(--rule)}
-  figcaption{font-family:var(--sans); font-size:.82rem; color:var(--slate); margin-top:.5rem; line-height:1.5}
 
   .entry{
     display:grid;
@@ -129,9 +127,26 @@
   .what li{margin-bottom:.25rem}
   .tools{font-family:var(--sans); font-size:.8rem; color:var(--slate); margin-top:.45rem}
 
-  .skills{display:grid; grid-template-columns:8rem 1fr; gap:.55rem 1.5rem; font-size:.95rem}
+  .coursework{
+    margin:0;
+    padding-top:1.1rem;
+    border-top:1px solid var(--rule);
+    font-size:.98rem;
+    line-height:1.55;
+  }
+  .label{display:block; font-family:var(--sans); font-size:.85rem; color:var(--slate); margin-bottom:.2rem}
+
+  .skills{display:grid; grid-template-columns:9.5rem 1fr; gap:.55rem 1.5rem; font-size:.95rem; margin:0}
   .skills dt{font-family:var(--sans); font-size:.85rem; color:var(--slate)}
   .skills dd{margin:0}
+
+  /* ---------- videos ---------- */
+  .clip{margin:0 0 2rem}
+  .clip video{width:100%; display:block; border:1px solid var(--rule); background:#0b0d0f}
+  .embed{position:relative; aspect-ratio:16 / 9; border:1px solid var(--rule); background:#0b0d0f}
+  .embed iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+  figcaption{font-family:var(--sans); font-size:.82rem; color:var(--slate); margin-top:.5rem; line-height:1.5}
+  figcaption strong{color:var(--ink); font-weight:500}
 
   footer{
     grid-column:1 / -1;
@@ -145,7 +160,7 @@
   a:focus-visible, nav a:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
 
   @media (max-width:820px){
-    .page{grid-template-columns:1fr; gap:2.5rem; padding:2.5rem 1.35rem 4rem}
+    .page{grid-template-columns:1fr; gap:2.5rem; padding:2.5rem 1rem 4rem}
     .rail{position:static}
     .portrait{width:110px; height:110px}
     main{max-width:none}
@@ -161,7 +176,7 @@
 <div class="page">
 
   <aside class="rail">
-    <!-- 정사각형 사진을 profile.jpg 이름으로 같은 폴더에 두세요. 없으면 이 줄을 지우면 됩니다. -->
+    <!-- 정사각형 사진을 profile.jpg 이름으로 이 파일과 같은 위치에 올리면 표시됩니다. 없으면 자동으로 숨겨집니다. -->
     <img class="portrait" src="profile.jpg" alt="Youngjin Noh" onerror="this.style.display='none'">
     <h1 class="name">Youngjin Noh</h1>
     <div class="name-kr">노영진 · Eric</div>
@@ -173,11 +188,14 @@
       <li><a href="https://github.com/yjericnoh">github.com/yjericnoh</a></li>
       <li><a href="cv.pdf">Curriculum vitae (PDF)</a></li>
     </ul>
-    <nav>
+    <nav aria-label="Sections">
       <a href="#about">About</a>
       <a href="#research">Research</a>
+      <a href="#videos" hidden>Videos</a>
+      <a href="#projects">Course projects</a>
       <a href="#education">Education</a>
       <a href="#skills">Skills</a>
+      <a href="#other">Other</a>
     </nav>
   </aside>
 
@@ -185,107 +203,180 @@
 
     <section id="about">
       <h2>About</h2>
-
-      <!-- 데모 영상이 있으면 media/ 폴더에 넣고 아래 주석을 푸세요. 없으면 그대로 두면 렌더링되지 않습니다.
-      <figure>
-        <video src="media/shadow_replay.mp4" autoplay loop muted playsinline></video>
-        <figcaption><strong>Shadow replay in simulation.</strong> A learned policy drives the simulated follower arm while the recorded demonstration plays alongside it.</figcaption>
-      </figure>
-      -->
-
-      <p class="lede">I am an undergraduate in Mechanical Engineering at UNIST, working on robot vision and intelligent manipulation.</p>
-      <p>Since December 2025 I have been an undergraduate researcher in the <a href="https://intro.unist.ac.kr/">Intelligent Robotics Lab (IntRo)</a> at UNIST, advised by Prof. Junhyoung Ha, where I work on imitation learning for manipulator pick-and-place: building the training and simulation environment, processing demonstration data, and improving the tactile encoder of the policy.</p>
-      <p>My second interest is the numerical side of simulation itself — how many degrees of freedom a deformable-rod model needs, and where along the rod they should be spent, so that a simulated contact force or tip pose is accurate enough to train and evaluate a controller against.</p>
-      <p>I will spend the Spring 2027 semester at HKUST as an exchange student, and plan to continue to graduate study in robot vision and manipulation.</p>
+      <p class="lede">I am an undergraduate in Mechanical Engineering at UNIST. My research interests are contact and friction modeling of continuum and soft robots, soft-robot control, and robot manipulation and learning from demonstration.</p>
+      <p>Since December 2025 I have been an undergraduate researcher in the <a href="https://intro.unist.ac.kr/">Intelligent Robotics Lab (IntRo)</a> at UNIST, advised by Prof. Junhyoung Ha, where I lead a project on law-preserving resolution selection for contact-accurate continuum-robot simulation.</p>
+      <p>From February to May 2027 I will be an exchange student in the School of Engineering at HKUST.</p>
     </section>
 
     <section id="research">
       <h2>Research</h2>
 
       <div class="entry">
-        <div class="when">2026 –</div>
+        <div class="when">Dec 2025 –</div>
         <div class="what">
-          <h3>Goal-oriented spatial discretization for continuum-robot simulation</h3>
-          <p class="where">Research proposal, in preparation</p>
-          <p>At a fixed degree-of-freedom budget, a discretized rod model can place its nodes to minimize shape error or to minimize the error of the quantity a task actually depends on — and the two need not agree. I formulate node placement as an output-sensitive allocation problem, using an adjoint-weighted local defect as the importance indicator, and separate mechanical resolution, collision-sampling resolution, and node placement as independent variables in a factorial study.</p>
-          <p class="tools">Kirchhoff-type rod in MuJoCo · discrete adjoint · quasi-static equilibrium by residual root-finding</p>
+          <h3>Law-preserving resolution selection for contact-accurate continuum-robot simulation</h3>
+          <p class="where">Intelligent Robotics Lab (IntRo), UNIST · Undergraduate researcher, project lead · Advisor: Prof. Junhyoung Ha</p>
+          <ul>
+            <li>Showed in pilot runs that refining a MuJoCo rigid-chain model of a tendon-driven continuum robot can change its contact law: per-length contact stiffness rose by about 95–108% from 10 to 80 links once link rotational inertia mattered.</li>
+            <li>Developed a law-preserving parameterization that scales each contact row by the engine's inverse-inertia estimate; it held the target per-row stiffness to machine precision in the same pilots.</li>
+            <li>Designing an output-oriented resolution-selection method (adjoint-based estimates of wrench and squeeze-force changes) checked against an independent rod-model reference, toward a simulation paper.</li>
+          </ul>
+          <p class="tools">MuJoCo · Python · tendon-driven continuum robots · adjoint-based error estimation</p>
         </div>
       </div>
 
       <div class="entry">
-        <div class="when">Dec 2025 –</div>
+        <div class="when">May – Sep 2026</div>
         <div class="what">
-          <h3>Imitation learning for manipulator pick-and-place with force feedback</h3>
-          <p class="where">Undergraduate researcher, Intelligent Robotics Lab (IntRo), UNIST</p>
+          <h3>Teleoperation feedback for imitation-learning data collection</h3>
+          <p class="where">UNIST UIRP team project</p>
           <ul>
-            <li>Built the full data and training environment: teleoperated demonstration recording, episode acceptance criteria, dataset splits held fixed across runs, and containerized GPU training.</li>
-            <li>Trained vision–state–tactile policies (frozen DINOv2 backbone, tactile tokenizer, action head) predicting 6-D actions, and evaluated them on sealed test episodes and in physics replay rather than on training loss alone.</li>
-            <li>Implemented gripper force feedback from simulated contact forces, replacing a position-error virtual coupling, and audited the recorded action channel for artifacts that were teaching the policy the wrong grasping behavior.</li>
+            <li>Leader–follower teleoperation on OpenManipulator-X (ROS 2 Jazzy, ros2_control, Dynamixel), comparing six feedback conditions — from unilateral control to variable stiffness with tactile feedback — as data-collection methods for imitation learning.</li>
+            <li>Implemented MuJoCo-based gripper force feedback from simulated contact forces; set up the environment and data pipeline, ran calibration, and improved the tactile tokenizer.</li>
+            <li>Trained manipulation policies on frozen DINOv2 visual features with action chunking and evaluated them closed-loop in MuJoCo.</li>
           </ul>
-          <p class="tools">PyTorch · MuJoCo · ROS 2 · Docker · OpenManipulator-X</p>
+          <p class="tools">ROS 2 Jazzy · ros2_control · Dynamixel · MuJoCo · PyTorch · DINOv2 · OpenManipulator-X</p>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      영상 칸
+      - data-src는 저장소 안의 파일 경로입니다. 그 경로에 파일이 있으면 영상과 이 섹션, 왼쪽 메뉴의 Videos가 자동으로 나타납니다.
+      - 파일이 없는 칸은 숨겨집니다. 영상을 더 넣으려면 figure 한 덩어리를 복사해 data-src와 캡션만 바꾸세요.
+      - 파일 이름은 대소문자까지 똑같아야 합니다. 캡션은 실제 영상 내용에 맞게 고치세요.
+    -->
+    <section id="videos" hidden>
+      <h2>Videos</h2>
+
+      <figure class="clip" data-src="V2_H1_SUCCESS_R0_R2_R0_LIFT.mp4" hidden>
+        <video controls muted playsinline preload="metadata"></video>
+        <figcaption><strong>Grasp and lift in simulation.</strong> OpenManipulator-X picking up a cube in MuJoCo, seen from two cameras; the panel below the views shows the controller state during the episode.</figcaption>
+      </figure>
+
+      <figure class="clip" data-src="media/teleoperation.mp4" hidden>
+        <video controls muted playsinline preload="metadata"></video>
+        <figcaption><strong>Teleoperation with force feedback.</strong> Leader–follower teleoperation on OpenManipulator-X.</figcaption>
+      </figure>
+
+      <figure class="clip" data-src="media/continuum_sim.mp4" hidden>
+        <video controls muted playsinline preload="metadata"></video>
+        <figcaption><strong>Continuum-robot contact in MuJoCo.</strong> Rigid-chain model of a tendon-driven continuum robot in contact.</figcaption>
+      </figure>
+
+      <!--
+        YouTube(일부 공개)로 넣을 때: 아래 figure의 주석을 풀고 VIDEO_ID를 영상 주소의 v= 뒤 11자리로 바꾸세요.
+      <figure class="clip">
+        <div class="embed"><iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="Video title" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+        <figcaption><strong>Title.</strong> One-line description.</figcaption>
+      </figure>
+      -->
+    </section>
+
+    <section id="projects">
+      <h2>Selected course projects</h2>
+
+      <div class="entry">
+        <div class="when">Spring 2026</div>
+        <div class="what">
+          <h3>Casting-defect image classification</h3>
+          <p class="where">AI-based Digital Manufacturing</p>
+          <p>ResNet-style CNN, 98.44% validation accuracy.</p>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="when">Spring 2026</div>
+        <div class="what">
+          <h3>Battery thermal-runaway detection (team)</h3>
+          <p class="where">AI-based Digital Manufacturing</p>
+          <p>Progressed from a 1D-CNN (76.6%) to semi-supervised autoencoder pretraining (88.5%), then multimodal and image-only ResNet-50 models on an AIHub dataset.</p>
         </div>
       </div>
 
       <div class="entry">
         <div class="when">2026</div>
         <div class="what">
-          <h3>Physics-informed neural networks for heat conduction</h3>
-          <p class="where">Course research, Heat Transfer, UNIST</p>
-          <p>Diagnosed loss-term imbalance in a PINN solution of a conduction problem, non-dimensionalized the governing equations to rebalance the residual and boundary terms, and compared an Adam-to-L-BFGS schedule against Adam alone. Wrote up where a PINN adds value over FDM-based inverse optimization, and where it does not.</p>
+          <h3>PINN for inverse thermal-conductivity estimation</h3>
+          <p class="where">Heat Transfer (MEN310)</p>
+          <p>Diagnosed loss imbalance, non-dimensionalized the problem and trained with Adam followed by L-BFGS; assessed when a PINN adds value over FDM-based inverse optimization.</p>
         </div>
       </div>
     </section>
-
 
     <section id="education">
       <h2>Education</h2>
 
       <div class="entry">
-        <div class="when">2022 – Feb 2029 (expected)</div>
+        <div class="when">Mar 2022 – Feb 2029 (expected)</div>
         <div class="what">
           <h3>B.S. in Mechanical Engineering</h3>
-          <p class="where">Ulsan National Institute of Science and Technology (UNIST)</p>
-          <p>Coursework in robotics, heat transfer, electrodynamics, aerosol dynamics, ergonomics, and AI-based digital manufacturing.</p>
+          <p class="where">Ulsan National Institute of Science and Technology (UNIST), Ulsan, Korea</p>
+          <p>GPA 3.86 / 4.3 (major 4.0 / 4.3). Leave of absence for military service, Jun 2023 – Dec 2024.</p>
         </div>
       </div>
 
       <div class="entry">
-        <div class="when">Jun 2023 &ndash; Dec 2024</div>
+        <div class="when">Feb – May 2027 (incoming)</div>
         <div class="what">
-          <h3>Mandatory military service</h3>
-          <p class="where">Republic of Korea</p>
+          <h3>Exchange student, School of Engineering</h3>
+          <p class="where">The Hong Kong University of Science and Technology (HKUST), Hong Kong</p>
         </div>
       </div>
 
-      <div class="entry">
-        <div class="when">Spring 2027</div>
-        <div class="what">
-          <h3>Exchange semester</h3>
-          <p class="where">Hong Kong University of Science and Technology (HKUST)</p>
-          <p>Robotics, control, optimization, and computer vision coursework.</p>
-        </div>
-      </div>
+      <p class="coursework"><span class="label">Relevant coursework</span>Applied Linear Algebra, Differential Equations, Signals and Systems, Dynamics, Classical Mechanics I, Solid Mechanics I–II, Electrical Engineering Programming, AI-Based Digital Manufacturing. In progress (Fall 2026): Introduction to Robotics, Dynamic Systems and Control, Numerical Analysis, Optimization Theory.</p>
     </section>
 
     <section id="skills">
       <h2>Skills</h2>
       <dl class="skills">
-        <dt>Languages</dt>
-        <dd>Python, C++</dd>
-        <dt>Robotics</dt>
-        <dd>ROS 2, MuJoCo, Dynamixel SDK, OpenManipulator-X</dd>
+        <dt>Robotics &amp; simulation</dt>
+        <dd>ROS 2 (Jazzy), ros2_control, Dynamixel SDK, MuJoCo (rigid-chain and cable models, contact and constraint tuning)</dd>
         <dt>Machine learning</dt>
-        <dd>PyTorch, DINOv2, CNN / ResNet architectures</dd>
-        <dt>Systems</dt>
-        <dd>Linux (Ubuntu), Docker, Git, CUDA-based GPU training</dd>
-        <dt>Spoken</dt>
-        <dd>Korean (native), English (coursework, reports, and presentations)</dd>
+        <dd>PyTorch, LeRobot / ACT, DINOv2 feature pipelines, CNNs (ResNet), physics-informed neural networks</dd>
+        <dt>Programming</dt>
+        <dd>Python, C++, MATLAB</dd>
+        <dt>Tools</dt>
+        <dd>Linux (Ubuntu), Git</dd>
+      </dl>
+    </section>
+
+    <section id="other">
+      <h2>Other</h2>
+      <dl class="skills">
+        <dt>Military service</dt>
+        <dd>Republic of Korea, Jun 2023 – Dec 2024 (completed)</dd>
+        <dt>Languages</dt>
+        <dd>Korean (native), English (TOEIC 825; all UNIST courses are taught in English)</dd>
       </dl>
     </section>
 
   </main>
 
-  <footer>© 2026 Youngjin Noh</footer>
+  <footer>© 2026 Youngjin Noh · Last updated October 2026</footer>
 </div>
+
+<script>
+  // Videos: a figure with data-src appears only when its file exists in the repository.
+  (function () {
+    var section = document.getElementById('videos');
+    var navLink = document.querySelector('nav a[href="#videos"]');
+    function reveal() {
+      section.hidden = false;
+      if (navLink) navLink.hidden = false;
+    }
+    // A pasted YouTube figure (no data-src) shows the section straight away.
+    if (section.querySelector('figure.clip:not([data-src])')) reveal();
+    section.querySelectorAll('figure.clip[data-src]').forEach(function (fig) {
+      var src = fig.getAttribute('data-src');
+      fetch(src, { method: 'HEAD' }).then(function (res) {
+        if (!res.ok) return;
+        fig.querySelector('video').src = src + '#t=0.1';
+        fig.hidden = false;
+        reveal();
+      }).catch(function () {});
+    });
+  })();
+</script>
 </body>
 </html>
